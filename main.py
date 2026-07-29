@@ -13,7 +13,7 @@ from bot import (
 async def main():
 
     print("=" * 40)
-    print("Shift Change Bot")
+    print("Shift Change Bot Trans")
     print("=" * 40)
 
     sheets = GoogleSheets()
