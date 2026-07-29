@@ -12,7 +12,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 # Google
 # ==========================
 GOOGLE_CREDENTIALS_FILE = "service_account.json"
-GOOGLE_SHEET_NAME = "ShiftChange"
+GOOGLE_SHEET_NAME = "ShiftChange_trans"
 
 # ==========================
 # Scheduler
