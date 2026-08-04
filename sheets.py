@@ -250,7 +250,56 @@ class GoogleSheets:
             "TRUE",
             "FALSE"
         ])
-    
+
+    def get_nearest_schedule_by_sender(self, user_id):
+
+        schedules = []
+
+        for row in self.get_schedule():
+
+            if (
+                row["SenderUserID"] == user_id
+                and str(row["Active"]).upper() == "TRUE"
+                and str(row["Executed"]).upper() == "FALSE"
+            ):
+                schedules.append(row)
+
+        if len(schedules) == 0:
+            return None
+
+        schedules.sort(
+            key=lambda x: datetime.strptime(
+                x["StartDateTime"],
+                "%d.%m.%Y %H:%M"
+            )
+        )
+
+        return schedules[0]
+
+
+    def get_nearest_schedule(self):
+
+        schedules = []
+
+        for row in self.get_schedule():
+
+            if (
+                str(row["Active"]).upper() == "TRUE"
+                and str(row["Executed"]).upper() == "FALSE"
+            ):
+                schedules.append(row)
+
+        if len(schedules) == 0:
+            return None
+
+        schedules.sort(
+            key=lambda x: datetime.strptime(
+                x["StartDateTime"],
+                "%d.%m.%Y %H:%M"
+            )
+        )
+
+        return schedules[0]
 
     # ==========================================================
     # SESSIONS
