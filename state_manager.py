@@ -60,6 +60,28 @@ class StateManager:
     ):
 
         print(f">>> CALLBACK: {data}")
+
+        if data == "start_now":
+
+            await self.bot.send_message(
+                chat_id=int(user["TelegramID"]),
+                text=(
+                    "🚧 Функция запуска передачи смены "
+                    "сейчас находится в разработке."
+                )
+            )
+
+            return
+
+
+        if data == "cancel_start":
+
+            await self.bot.send_message(
+                chat_id=int(user["TelegramID"]),
+                text="❌ Запуск отменен."
+            )
+
+            return
         
         if data in ["accept", "reject"]:
 
@@ -362,6 +384,49 @@ class StateManager:
 
         print("Receiver confirm")
 
+    async def show_start_now(
+        self,
+        telegram_id,
+        schedule
+    ):
+
+        from datetime import timedelta
+
+        start = datetime.strptime(
+            schedule["StartDateTime"],
+            "%d.%m.%Y %H:%M"
+        )
+
+        local_time = start + timedelta(hours=5)
+
+        keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(
+                        text="✅ Начать сейчас",
+                        callback_data="start_now"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="❌ Отмена",
+                        callback_data="cancel_start"
+                    )
+                ]
+            ]
+        )
+
+        await self.bot.send_message(
+            chat_id=telegram_id,
+            text=(
+                "📋 У вас есть запланированная передача смены.\n\n"
+                f"🕒 Плановое время: "
+                f"{local_time.strftime('%d.%m.%Y %H:%M')}\n\n"
+                "Начать передачу сейчас?"
+            ),
+            reply_markup=keyboard
+        )
+    
     async def process_receiver_answer(
         self,
         session,
