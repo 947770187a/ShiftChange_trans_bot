@@ -14,14 +14,50 @@ class ConversationManager:
         )
 
     async def process_telegram_message(
-        
+
         self,
         telegram_id,
         text
     ):
-        print(">>> process_telegram_message") 
-        user = self.find_user_by_telegram(telegram_id)
+        print(">>> process_telegram_message")
 
+        user = self.find_user_by_telegram(
+            telegram_id
+        )
+
+    # ==========================================
+    # Новый сценарий для /start
+    # ==========================================
+        if text == "/start" and user is not None:
+
+            my_schedule = self.sheets.get_nearest_schedule_by_sender(
+                user["UserID"]
+            )
+
+            if my_schedule is not None:
+
+                await self.state_manager.show_start_now(
+                    telegram_id,
+                    my_schedule
+                )
+
+                return
+
+            nearest = self.sheets.get_nearest_schedule()
+
+            if nearest is not None:
+
+                await self.state_manager.show_override_schedule(
+                    telegram_id,
+                    user,
+                    nearest
+                )
+
+                return
+
+    # ==========================================
+    # Регистрация
+    # ==========================================
         if user is None:
 
             if self.registration_manager.is_pending(
@@ -36,11 +72,14 @@ class ConversationManager:
             else:
 
                 await self.registration_manager.start_registration(
-            telegram_id
+                    telegram_id
                 )
 
             return
 
+    # ==========================================
+    # Существующая логика
+    # ==========================================
         session = self.sheets.get_active_session_by_sender(
             user["UserID"]
         )
@@ -59,7 +98,7 @@ class ConversationManager:
             user=user,
             message=text
         )
-
+    
     async def process_callback(
         self,
         telegram_id,
