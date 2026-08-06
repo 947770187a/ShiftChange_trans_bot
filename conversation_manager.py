@@ -11,7 +11,7 @@ class ConversationManager:
         self.state_manager = StateManager(
             sheets,
             bot,
-            sheduler
+            sсheduler
         )
         self.registration_manager = RegistrationManager(
             sheets,
