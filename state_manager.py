@@ -97,7 +97,22 @@ class StateManager:
             )
 
             return
-        
+        if data == "override_schedule":
+
+            print("OVERRIDE 1")
+
+            schedule = self.sheets.get_nearest_schedule()
+
+            print("OVERRIDE 2", schedule)
+
+            if schedule is None:
+
+                await self.bot.send_message(
+                    chat_id=int(user["TelegramID"]),
+                    text="Ближайшее расписание не найдено."
+                )
+
+                return
         if data in ["accept", "reject"]:
 
             if session["Status"] != "WAITING_RECEIVER_CONFIRM":
@@ -443,6 +458,55 @@ class StateManager:
             reply_markup=keyboard
         )
         print(">>> AFTER SEND")
+
+    async def show_override_schedule(
+        self,
+        telegram_id,
+        user,
+        schedule
+    ):
+
+        from datetime import timedelta
+
+        start = datetime.strptime(
+            schedule["StartDateTime"],
+            "%d.%m.%Y %H:%M"
+        )
+
+        local_time = start + timedelta(hours=5)
+
+        sender = self.sheets.get_user_by_id(
+            schedule["SenderUserID"]
+        )
+
+        keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(
+                        text="✅ Да",
+                        callback_data="override_schedule"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="❌ Нет",
+                        callback_data="cancel_start"
+                    )
+                ]
+            ]
+        )
+
+        await self.bot.send_message(
+            chat_id=telegram_id,
+            text=(
+                "📋 Назначена передача смены.\n\n"
+                f"👤 Сдающий:\n{sender['FullName']}\n\n"
+                f"🕒 Плановое время:\n"
+                f"{local_time.strftime('%d.%m.%Y %H:%M')}\n\n"
+                "Отменить эту передачу и назначить передачу смены на вас?"
+            ),
+            reply_markup=keyboard
+        )
     async def process_receiver_answer(
         self,
         session,
