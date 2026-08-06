@@ -404,6 +404,7 @@ class StateManager:
         telegram_id,
         schedule
     ):
+        print(">>> ENTER show_start_now")
 
         from datetime import timedelta
 
@@ -430,7 +431,7 @@ class StateManager:
                 ]
             ]
         )
-
+        print(">>> BEFORE SEND")
         await self.bot.send_message(
             chat_id=telegram_id,
             text=(
@@ -441,7 +442,7 @@ class StateManager:
             ),
             reply_markup=keyboard
         )
-    
+        print(">>> AFTER SEND")
     async def process_receiver_answer(
         self,
         session,
