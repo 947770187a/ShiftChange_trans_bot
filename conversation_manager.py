@@ -59,6 +59,15 @@ class ConversationManager:
                 )
 
                 return
+            await self.bot.send_message(
+                chat_id=telegram_id,
+                text=(
+                    "📭 На данный момент активных передач смены "
+                    "или запланированных расписаний нет."
+                )
+            )
+
+            return
 
     # ==========================================
     # Регистрация
