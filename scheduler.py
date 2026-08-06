@@ -11,6 +11,16 @@ class Scheduler:
         self.sheets = sheets
         self.session_manager = SessionManager(sheets)
 
+    async def start_schedule(self, schedule):
+
+        await self.session_manager.create_session(
+            schedule
+        )
+
+        self.sheets.update_schedule_executed(
+            schedule["ScheduleID"]
+        )
+    
     async def start(self):
 
         print("Scheduler started")
@@ -45,7 +55,7 @@ class Scheduler:
             if start_time > datetime.now():
                 continue
 
-            await self.session_manager.create_session(schedule)
+            await self.start_schedule(schedule)
 
             self.sheets.update_schedule_executed(
                 schedule["ScheduleID"]
