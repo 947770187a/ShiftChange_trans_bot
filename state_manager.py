@@ -1,4 +1,4 @@
-    import uuid
+import uuid
 from datetime import datetime
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
