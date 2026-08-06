@@ -29,25 +29,25 @@ class ConversationManager:
         user = self.find_user_by_telegram(
             telegram_id
         )
-
+        print("USER:", user)
     # ==========================================
     # Новый сценарий для /start
     # ==========================================
         if text == "/start" and user is not None:
-
+            print("CHECK MY SCHEDULE")
             my_schedule = self.sheets.get_nearest_schedule_by_sender(
                 user["UserID"]
             )
 
             if my_schedule is not None:
-
+                print("SHOW START NOW")
                 await self.state_manager.show_start_now(
                     telegram_id,
                     my_schedule
                 )
 
                 return
-
+            print("MY SCHEDULE:", my_schedule)
             #nearest = self.sheets.get_nearest_schedule()
 
             #if nearest is not None:
