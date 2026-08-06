@@ -8,7 +8,11 @@ class ConversationManager:
         self.sheets = sheets
         self.bot = bot
         self.scheduler = scheduler
-        self.state_manager = StateManager(sheets, bot)
+        self.state_manager = StateManager(
+            sheets,
+            bot,
+            sheduler
+        )
         self.registration_manager = RegistrationManager(
             sheets,
             bot
