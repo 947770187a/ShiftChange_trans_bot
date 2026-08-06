@@ -22,17 +22,19 @@ async def main():
     print("RAW SCHEDULE:")
     print(sheets.schedule.get_all_values())
 
+    scheduler = Scheduler(sheets)
+    
     conversation_manager = ConversationManager(
         sheets,
-        bot
+        bot,
+        scheduler
     )
 
     set_conversation_manager(
         conversation_manager
     )
 
-    scheduler = Scheduler(sheets)
-
+    
     asyncio.create_task(
         scheduler.start()
     )
