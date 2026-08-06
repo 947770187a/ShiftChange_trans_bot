@@ -63,11 +63,15 @@ class StateManager:
         print(f">>> CALLBACK: {data}")
 
         if data == "start_now":
-
+            
+            print("START_NOW 1")
+            
             schedule = self.sheets.get_nearest_schedule_by_sender(
                 user["UserID"]
             )
-
+            
+            print("START_NOW 2", schedule)
+            
             if schedule is None:
 
                 await self.bot.send_message(
@@ -76,11 +80,13 @@ class StateManager:
                 )
 
                 return
-
+                
+            print("START_NOW 4")
+            
             await self.scheduler.start_schedule(
                 schedule
             )
-
+            print("START_NOW 5")
             return
        
         if data == "cancel_start":
