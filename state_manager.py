@@ -64,6 +64,26 @@ class StateManager:
 
         if data == "start_now":
 
+            schedule = self.sheets.get_nearest_schedule_by_sender(
+                user["UserID"]
+            )
+
+            if schedule is None:
+
+                await self.bot.send_message(
+                    chat_id=int(user["TelegramID"]),
+                    text="Запланированная передача не найдена."
+                )
+
+                return
+
+    await self.scheduler.start_schedule(
+        schedule
+    )
+
+    return
+        if data == "start_now":
+
             await self.bot.send_message(
                 chat_id=int(user["TelegramID"]),
                 text=(
