@@ -6,11 +6,12 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 class StateManager:
 
-    def __init__(self, sheets, bot):
-
+    def __init__(self, sheets, bot, scheduler):
+        
         self.sheets = sheets
         self.bot = bot
-
+        self.scheduler = scheduler
+        
     async def process_message(
         self,
         session,
