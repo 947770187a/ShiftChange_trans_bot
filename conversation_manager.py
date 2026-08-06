@@ -50,15 +50,15 @@ class ConversationManager:
             print("MY SCHEDULE:", my_schedule)
             #nearest = self.sheets.get_nearest_schedule()
 
-            #if nearest is not None:
+            if nearest is not None:
 
-             #   await self.state_manager.show_override_schedule(
-              #      telegram_id,
-               #     user,
-                #    nearest
-                #)
+                await self.state_manager.show_override_schedule(
+                    telegram_id,
+                    user,
+                    nearest
+                )
 
-                #return
+                return
 
     # ==========================================
     # Регистрация
