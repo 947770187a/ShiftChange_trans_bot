@@ -1,4 +1,4 @@
-import uuid
+    import uuid
 from datetime import datetime
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -113,6 +113,26 @@ class StateManager:
                 )
 
                 return
+
+            self.sheets.deactivate_schedule(
+                schedule["ScheduleID"]
+            )
+
+            new_schedule = self.sheets.create_manual_schedule(
+                start_datetime=schedule["StartDateTime"],
+                sender_user_id=user["UserID"]
+            )
+
+            await self.scheduler.start_schedule(
+                new_schedule
+            )
+
+            await self.bot.send_message(
+                chat_id=int(user["TelegramID"]),
+                text="✅ Передача смены назначена на вас."
+            )
+
+            return
         if data in ["accept", "reject"]:
 
             if session["Status"] != "WAITING_RECEIVER_CONFIRM":
