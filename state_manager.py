@@ -77,24 +77,12 @@ class StateManager:
 
                 return
 
-    await self.scheduler.start_schedule(
-        schedule
-    )
-
-    return
-        if data == "start_now":
-
-            await self.bot.send_message(
-                chat_id=int(user["TelegramID"]),
-                text=(
-                    "🚧 Функция запуска передачи смены "
-                    "сейчас находится в разработке."
-                )
+            await self.scheduler.start_schedule(
+                schedule
             )
 
             return
-
-
+       
         if data == "cancel_start":
 
             await self.bot.send_message(
