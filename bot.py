@@ -42,7 +42,9 @@ async def group_id(message: Message):
 
 @dp.message(F.text)
 async def any_message(message: Message):
-
+    if message.text == "/start":
+        return
+        
     if conversation_manager is None:
         return
 
