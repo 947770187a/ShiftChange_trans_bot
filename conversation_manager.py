@@ -48,7 +48,7 @@ class ConversationManager:
 
                 return
             print("MY SCHEDULE:", my_schedule)
-            #nearest = self.sheets.get_nearest_schedule()
+            nearest = self.sheets.get_nearest_schedule()
 
             if nearest is not None:
 
