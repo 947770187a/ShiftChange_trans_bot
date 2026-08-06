@@ -109,12 +109,30 @@ class ConversationManager:
         telegram_id,
         data
     ):
-
+        print(f">>> Conversation callback: {data}")
         user = self.find_user_by_telegram(telegram_id)
 
         if user is None:
             return
+        if data == "start_now":
 
+            await self.state_manager.process_callback(
+                session=None,
+                user=user,
+                data=data
+            )
+
+            return
+
+        if data == "cancel_start":
+
+            await self.state_manager.process_callback(
+                session=None,
+                user=user,
+                data=data
+            )
+        
+            return
         if data in ["accept", "reject"]:
 
             session = self.sheets.get_session_by_receiver(
@@ -126,7 +144,7 @@ class ConversationManager:
             session = self.sheets.get_active_session_by_sender(
                 user["UserID"]
             )
-
+        print("SESSION =", session)
         if session is None:
             return
 
