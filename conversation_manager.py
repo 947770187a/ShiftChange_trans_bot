@@ -133,6 +133,16 @@ class ConversationManager:
             )
         
             return
+
+        if data == "override_schedule":
+
+            await self.state_manager.process_callback(
+                session=None,
+                user=user,
+                data=data
+            )
+
+            return
         if data in ["accept", "reject"]:
 
             session = self.sheets.get_session_by_receiver(
