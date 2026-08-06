@@ -301,6 +301,38 @@ class GoogleSheets:
 
         return schedules[0]
 
+    def deactivate_schedule(self, schedule_id):
+
+        records = self.schedule.get_all_records()
+    
+        for i, row in enumerate(records, start=2):
+
+            if row["ScheduleID"] == schedule_id:
+
+                self.schedule.update_cell(i, 4, "FALSE")
+                return
+
+
+    def create_manual_schedule(
+        self,
+        start_datetime,
+        sender_user_id
+    ):
+
+        schedule = {
+            "ScheduleID": str(uuid.uuid4()),
+            "StartDateTime": start_datetime,
+            "SenderUserID": sender_user_id,
+            "Active": "TRUE",
+            "Executed": "FALSE"
+        }
+
+        self.schedule.append_row(
+            list(schedule.values())
+        )
+
+        return schedule
+
     # ==========================================================
     # SESSIONS
     # ==========================================================
