@@ -3,7 +3,7 @@ from registration_manager import RegistrationManager
 
 class ConversationManager:
 
-    def __init__(self, sheets, bot):
+    def __init__(self, sheets, bot, scheduler):
 
         self.sheets = sheets
         self.bot = bot
